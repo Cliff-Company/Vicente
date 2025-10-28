@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Tarjeta Virtual - Nombre Vendedor</title>
+  <title>Tarjeta Virtual - Vicente</title>
   <style>
     :root {
       --accent: #0b84ff;
-      --bg-overlay: rgba(0,0,0,0.55);
+      --bg-overlay: rgba(0,0,0,0.45);
       --radius: 14px;
-      --glass: rgba(255,255,255,0.1);
+      --glass: rgba(0,0,0,0.4);
       --text: #fff;
       font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
     }
@@ -17,13 +17,15 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100vh; /* asegura que cubra la pantalla completa */
       width: 100%;
-      background: url('img/fondo.png') center/cover no-repeat fixed;
+      background: url('img/fondo.png') no-repeat center center;
+      background-size: cover; /* cubre toda la pantalla */
       display: flex;
       justify-content: center;
       align-items: center;
       color: var(--text);
+      overflow: hidden;
     }
 
     .overlay {
@@ -40,41 +42,46 @@
       max-width: 400px;
       background: var(--glass);
       border-radius: var(--radius);
-      backdrop-filter: blur(8px);
+      backdrop-filter: none; /* sin blur */
       padding: 1.2rem;
       box-sizing: border-box;
       box-shadow: 0 8px 25px rgba(0,0,0,0.4);
       text-align: center;
+      animation: fadeInUp 0.8s ease-out both;
     }
 
-    .logo {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto;
-      border-radius: 20px;
-      background: linear-gradient(135deg, var(--accent), #6c1df0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+    .photo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      animation: fadeIn 1s ease-out both;
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .name {
       font-size: 1.3rem;
       font-weight: 700;
+      animation: fadeIn 1s ease-out 0.2s both;
     }
     .role {
       opacity: 0.9;
       font-size: 0.9rem;
       margin-bottom: 1rem;
+      animation: fadeIn 1s ease-out 0.3s both;
     }
 
     .info {
       font-size: 0.9rem;
       line-height: 1.4;
       margin-bottom: 1rem;
+      animation: fadeIn 1s ease-out 0.4s both;
     }
 
     .btn {
@@ -88,6 +95,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      animation: fadeInUp 0.8s ease-out both;
     }
 
     .btn.primary {
@@ -101,6 +109,7 @@
 
     .section {
       display: none;
+      animation: fadeIn 0.8s ease-out both;
     }
 
     .section.active {
@@ -120,10 +129,22 @@
         padding: 1rem;
         border-radius: 10px;
       }
-      .logo {
-        width: 70px; height: 70px; font-size: 1.3rem;
+      .photo {
+        width: 90px;
+        height: 90px;
       }
       .btn { font-size: 0.9rem; padding: 0.7rem 0.9rem; }
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -131,19 +152,21 @@
   <div class="overlay"></div>
 
   <div class="card">
-    <div class="logo" id="logo">JL</div>
-    <div class="name" id="person-name">Nombre Apellido</div>
+    <div class="photo">
+      <img src="img/Vicente.png" alt="Foto de Vicente">
+    </div>
+    <div class="name" id="person-name">Vicente Pérez</div>
     <div class="role" id="person-role">Vendedor - Empresa</div>
 
     <div id="section-main" class="section active">
       <div class="info">
-        <div><strong>Tel:</strong> <span id="phone">+52 1 55 1234 5678</span></div>
-        <div><strong>Correo:</strong> <span id="email">vendedor@empresa.com</span></div>
-        <div><strong>Ubicación:</strong> <span id="location">Ciudad, País</span></div>
+        <div><strong>Tel:</strong> <span id="phone">+52 33 2326 2095</span></div>
+        <div><strong>Correo:</strong> <span id="email">agente_ventas@cliff.com.mx</span></div>
+        <div><strong>Ubicación:</strong> <span id="location">Guadalajara, México</span></div>
       </div>
       <button class="btn primary" data-view="a">Detalles</button>
       <button class="btn" data-view="b">Redes</button>
-      <button class="btn" id="download-vcard">Descargar vCard</button>
+      <button class="btn" id="whatsapp-btn">WhatsApp</button>
     </div>
 
     <div id="section-a" class="section">
@@ -154,7 +177,7 @@
 
     <div id="section-b" class="section">
       <h3>Redes y contacto</h3>
-      <p><a href="https://wa.me/525512345678" target="_blank">WhatsApp</a></p>
+      <p><a href="https://wa.me/523323262095" target="_blank">WhatsApp</a></p>
       <p><a href="https://www.linkedin.com/" target="_blank">LinkedIn</a></p>
       <p><a href="https://www.empresa.com/" target="_blank">Sitio Web</a></p>
       <button class="btn" data-view="main">Volver</button>
@@ -177,29 +200,11 @@
       });
     });
 
-    document.getElementById('download-vcard').addEventListener('click', () => {
-      const name = document.getElementById('person-name').textContent.trim();
-      const phone = document.getElementById('phone').textContent.trim();
-      const email = document.getElementById('email').textContent.trim();
-      const org = document.getElementById('person-role').textContent.trim();
-
-      const vcard = [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        `FN:${name}`,
-        `ORG:${org}`,
-        `TEL;TYPE=WORK,VOICE:${phone}`,
-        `EMAIL;TYPE=INTERNET:${email}`,
-        'END:VCARD'
-      ].join('\n');
-
-      const blob = new Blob([vcard], { type: 'text/vcard' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = (name.replace(/\s+/g, '_') || 'contact') + '.vcf';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
+    // Botón de WhatsApp directo
+    document.getElementById('whatsapp-btn').addEventListener('click', () => {
+      window.open('https://wa.me/523323262095', '_blank');
     });
   </script>
 </body>
 </html>
+
