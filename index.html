@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tarjeta Virtual - Nombre Vendedor</title>
+  <style>
+    :root {
+      --accent: #0b84ff;
+      --bg-overlay: rgba(0,0,0,0.55);
+      --radius: 14px;
+      --glass: rgba(255,255,255,0.1);
+      --text: #fff;
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: url('img/fondo.png') center/cover no-repeat fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 400px;
+      background: var(--glass);
+      border-radius: var(--radius);
+      backdrop-filter: blur(8px);
+      padding: 1.2rem;
+      box-sizing: border-box;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent), #6c1df0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .name {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .role {
+      opacity: 0.9;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .info {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 0.3rem;
+      padding: 0.8rem 1rem;
+      border: none;
+      border-radius: 10px;
+      background: var(--glass);
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn.primary {
+      background: linear-gradient(90deg, var(--accent), #6c1df0);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        padding: 1rem;
+        border-radius: 10px;
+      }
+      .logo {
+        width: 70px; height: 70px; font-size: 1.3rem;
+      }
+      .btn { font-size: 0.9rem; padding: 0.7rem 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="card">
+    <div class="logo" id="logo">JL</div>
+    <div class="name" id="person-name">Nombre Apellido</div>
+    <div class="role" id="person-role">Vendedor - Empresa</div>
+
+    <div id="section-main" class="section active">
+      <div class="info">
+        <div><strong>Tel:</strong> <span id="phone">+52 1 55 1234 5678</span></div>
+        <div><strong>Correo:</strong> <span id="email">vendedor@empresa.com</span></div>
+        <div><strong>Ubicación:</strong> <span id="location">Ciudad, País</span></div>
+      </div>
+      <button class="btn primary" data-view="a">Detalles</button>
+      <button class="btn" data-view="b">Redes</button>
+      <button class="btn" id="download-vcard">Descargar vCard</button>
+    </div>
+
+    <div id="section-a" class="section">
+      <h3>Detalles profesionales</h3>
+      <p>5 años de experiencia en ventas B2B de calzado de protección.</p>
+      <button class="btn" data-view="main">Volver</button>
+    </div>
+
+    <div id="section-b" class="section">
+      <h3>Redes y contacto</h3>
+      <p><a href="https://wa.me/525512345678" target="_blank">WhatsApp</a></p>
+      <p><a href="https://www.linkedin.com/" target="_blank">LinkedIn</a></p>
+      <p><a href="https://www.empresa.com/" target="_blank">Sitio Web</a></p>
+      <button class="btn" data-view="main">Volver</button>
+    </div>
+  </div>
+
+  <script>
+    const sections = {
+      main: document.getElementById('section-main'),
+      a: document.getElementById('section-a'),
+      b: document.getElementById('section-b')
+    };
+
+    document.querySelectorAll('[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        Object.keys(sections).forEach(k => {
+          sections[k].classList.toggle('active', k === view);
+        });
+      });
+    });
+
+    document.getElementById('download-vcard').addEventListener('click', () => {
+      const name = document.getElementById('person-name').textContent.trim();
+      const phone = document.getElementById('phone').textContent.trim();
+      const email = document.getElementById('email').textContent.trim();
+      const org = document.getElementById('person-role').textContent.trim();
+
+      const vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${name}`,
+        `ORG:${org}`,
+        `TEL;TYPE=WORK,VOICE:${phone}`,
+        `EMAIL;TYPE=INTERNET:${email}`,
+        'END:VCARD'
+      ].join('\n');
+
+      const blob = new Blob([vcard], { type: 'text/vcard' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = (name.replace(/\s+/g, '_') || 'contact') + '.vcf';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
